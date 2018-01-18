@@ -21,7 +21,8 @@ class BurgerBuilder extends Component {
       meat: 0
     },
     totalPrice: 4,
-    purchasable: false
+    purchasable: false,
+    purchasing: false
   }
 
   updatePurchaseState = (ingredients) => {
@@ -33,8 +34,6 @@ class BurgerBuilder extends Component {
     })
     // Sum of all ingredients, reduce, with starting total zero
     .reduce((sum, el) => {
-      console.log('el', el);
-      console.log('sum', sum);
       return sum + el;
     }, 0);
     // Set the state if we add sum is true
@@ -98,6 +97,10 @@ class BurgerBuilder extends Component {
     this.updatePurchaseState(updatedIngredients);
   }
 
+  purchaseHandler = () => {
+    this.state({purchasing: true});
+  }
+
   render() {
     // Copy the state in an immutable way
     const disableInfo = {
@@ -111,7 +114,7 @@ class BurgerBuilder extends Component {
 
     return(
       <Aux>
-        <Modal> 
+        <Modal show={this.state.purchasing}> 
           <OrderSummary ingredients={this.state.ingredients} />
         </Modal>
         <Burger ingredients={this.state.ingredients} />
@@ -120,7 +123,8 @@ class BurgerBuilder extends Component {
           ingredientRemoved={this.removeIngredientHandler} 
           disabled={disableInfo} 
           price={this.state.totalPrice}
-          purchasable={this.state.purchasable} />
+          purchasable={this.state.purchasable}
+          order={this.purchaseHandler} />
       </Aux>
     );
   }
