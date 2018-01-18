@@ -22,11 +22,11 @@ const burger = (props) => {
       // the initial value or reduce value is an empty array
       // .reduce((arr, el) => [...arr, ...el], []);
       .reduce((arr, el) => {
-        console.log('arr', arr);
-        console.log('el', el);
+        // console.log('arr', arr);
+        // console.log('el', el);
         return arr.concat(el)}, []);
    
-    console.log('transformedIngredients', transformedIngredients)
+    // console.log('transformedIngredients', transformedIngredients)
     if(transformedIngredients.length === 0) {
       transformedIngredients = <p>Please start adding ingredients!</p>;
     }
