@@ -1,10 +1,11 @@
 import React from "react";
 import Aux from "../../hoc/Auxiliary";
 import classes from './Layout.css';
+import Toolbar from '../Navigation/Toolbar/Toolbar';
 
 const layout = (props) => (
   <Aux>
-    <div>Toolbar, SideDrawer, Backdrop</div>
+    <Toolbar />
     <main className={classes.Content}>
       {/* output the component we wrap this layout 
      so use this layout as wrapper around the core content
