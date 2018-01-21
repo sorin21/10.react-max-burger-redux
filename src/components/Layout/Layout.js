@@ -23,7 +23,8 @@ class Layout extends Component {
   }
 
   render() {
-    return <Aux>
+    return (
+      <Aux>
         <Toolbar drawerTooggleClicked={this.sideDrawerToggleHandler} />
         <SideDrawer open={this.state.showSideDrawer} closed={this.sideDrawerCloseHandler} />
         <main className={classes.Content}>
@@ -32,7 +33,8 @@ class Layout extends Component {
         that we want to render to the screen*/}
           {this.props.children}
         </main>
-      </Aux>;
+      </Aux>
+    );
   }
 }
 

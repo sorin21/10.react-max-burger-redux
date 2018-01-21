@@ -1,30 +1,51 @@
-import React from 'react';
+import React, {Component} from 'react';
 import Aux from '../../../hoc/Auxiliary';
 import Button from '../../UI/Button/Button';
 
-const orderSummary = (props) => {
-  // Make an array from ingredients object
-  const ingredientsSummary = Object.keys(props.ingredients)
-    .map((ingKey) => {
-      return(
-        <li key={ingKey}>
-          <span style={{ textTransform: 'capitalize' }}>{ingKey}</span>: {props.ingredients[ingKey]}
-        </li>
-      );
-    });
-  return(
-    <Aux>
-      <h3>Your order</h3>
-      <p>A delicious burger with the following ingredients:</p>
-      <ul>
-        {ingredientsSummary}
-      </ul>
-      <p><strong>Total Price: $ {props.price.toFixed(2)}</strong></p>
-      <p>Continue to Checkout?</p>
-      <Button btnType="Danger" clicked={props.purchaseCancelled}>CANCEL</Button>
-      <Button btnType="Success" clicked={props.purchaseContinued}>CONTINUE</Button>
-    </Aux>
-  );
-};
+class OrderSummary extends Component {
 
-export default orderSummary;
+  componentWillUpdate() {
+    console.log("[OrderSummary] will update");
+  }
+  // componentDidUpdate() {
+  //   console.log("[OrderSummary] did update");
+  // }
+
+  render() {
+    // Make an array from ingredients object
+    const ingredientsSummary = Object.keys(this.props.ingredients).map(
+      ingKey => {
+        return (
+          <li key={ingKey}>
+            <span style={{ textTransform: "capitalize" }}>
+              {ingKey}
+            </span>: {this.props.ingredients[ingKey]}
+          </li>
+        );
+      }
+    );
+    return (
+      <Aux>
+        <h3>Your order</h3>
+        <p>
+          A delicious burger with the following ingredients:
+        </p>
+        <ul>{ingredientsSummary}</ul>
+        <p>
+          <strong>
+            Total Price: $ {this.props.price.toFixed(2)}
+          </strong>
+        </p>
+        <p>Continue to Checkout?</p>
+        <Button btnType="Danger" clicked={this.props.purchaseCancelled}>
+          CANCEL
+        </Button>
+        <Button btnType="Success" clicked={this.props.purchaseContinued}>
+          CONTINUE
+        </Button>
+      </Aux>
+    );
+  }
+}
+
+export default OrderSummary;
