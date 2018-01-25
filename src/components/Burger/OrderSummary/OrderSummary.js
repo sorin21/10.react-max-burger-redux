@@ -26,7 +26,7 @@ class OrderSummary extends Component {
     );
     return (
       <Aux>
-        <h3>Your order</h3>
+        <h3>Your order summary</h3>
         <p>
           A delicious burger with the following ingredients:
         </p>
