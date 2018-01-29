@@ -10,3 +10,6 @@
     localIdentName: '[name]__[local]__[hash:base64:5]'
 
 6. npm install --save prop-types
+
+7. For routing to work
+  npm install --save react-router-dom react-router

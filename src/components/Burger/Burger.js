@@ -1,8 +1,10 @@
 import React from 'react';
+// import { withRouter } from 'react-router-dom';
 import classes from './Burger.css';
 import BurgerIngredient from './BurgerIngredient/BurgerIngredient';
 
 const burger = (props) => {
+  console.log(props);
   // gives you an array of the object keys
   let transformedIngredients = Object.keys(props.ingredients)
     .map((igKey) => {
@@ -39,4 +41,6 @@ const burger = (props) => {
   );
 };
 
+// withRouter will pass updated match, location, and history props to the wrapped component
+// export default withRouter(burger);
 export default burger;

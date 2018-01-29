@@ -116,36 +116,27 @@ class BurgerBuilder extends Component {
   }
 
   purchaseContinueHandler = () => {
-    this.setState({loading: true});
-    const order = {
-      ingredients: this.state.ingredients,
-      price: this.state.totalPrice,
-      customer: {
-        name: 'Dan',
-        address: {
-          street: 'Elm Street',
-          zipCode: '34312',
-          country: 'United States of America'
-        },
-        emal: 'test@test.com'
-      },
-      deliveryMethod: 'fastest'
-    };
-    // alert('You continue!');
-    // Create in Firebase /orders
-    // .json is only for Firebase to work correctly
-    axios.post('/orders.json', order)
-      .then((response) => {
-        // console.log(response)
-        // Stop loading no matter what
-        this.setState({loading: false, purchasing: false});
-      })
-      .catch((error) => {
-        // console.log(error)
-        // Even an error occur stop loading
-        // Because the user think that is still loading
-        this.setState({ loading: false, purchasing: false });
-      })
+    // push() - switch the page and put it into the pages stack
+    // encode ingredients in the search query to be used in URL
+    const queryParams = [];
+    // add elements to queryParams
+    for(let i in this.state.ingredients) {
+      // property name = value
+      queryParams.push(
+        encodeURIComponent(i) + 
+        '=' +
+        encodeURIComponent(this.state.ingredients[i])  
+      );
+    }
+
+    const queryString =queryParams.join('&');
+
+    queryParams.push('price=' + this.state.totalPrice)
+     console.log(queryParams);
+    this.props.history.push({
+      pathname: '/checkout',
+      search: '?' + queryString
+    });
   }
 
   render() {
