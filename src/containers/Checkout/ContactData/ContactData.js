@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import Button from "../../../components/UI/Button/Button";
+import Spinner from '../../../components/UI/Spinner/Spinner';
 import classes from "./ContactData.css";
 import axios from "../../../axios-orders";
 class ContactData extends Component {
@@ -39,6 +40,7 @@ class ContactData extends Component {
         // console.log(response)
         // Stop loading no matter what
         this.setState({loading: false});
+        this.props.history.push('/');
       })
       .catch((error) => {
         // console.log(error)
@@ -49,16 +51,22 @@ class ContactData extends Component {
   }
 
   render() {
+    let form  = (
+      <form>
+        <input type="text" className={classes.Input} name="name" placeholder="Your name"/>
+        <input type="email" className={classes.Input} name="email" placeholder="Your email"/>
+        <input type="text" className={classes.Input} name="street" placeholder="Street"/>
+        <input type="text" className={classes.Input} name="postal" placeholder="Postal code"/>
+        <Button btnType="Success" clicked={this.orderHandler}>ORDER</Button>
+      </form>
+    );
+    if(this.state.loading) {
+      form = <Spinner />;
+    }
     return(
       <div className={classes.ContactData}>
         <h4>Enter you Contact Data</h4>
-        <form>
-          <input type="text" className={classes.Input} name="name" placeholder="Your name"/>
-          <input type="email" className={classes.Input} name="email" placeholder="Your email"/>
-          <input type="text" className={classes.Input} name="street" placeholder="Street"/>
-          <input type="text" className={classes.Input} name="postal" placeholder="Postal code"/>
-          <Button btnType="Success" clicked={this.orderHandler}>ORDER</Button>
-        </form>
+        {form}
       </div>
     );
   }
