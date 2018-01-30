@@ -23,6 +23,7 @@ class Checkout extends Component {
       console.log(param)
       if(param[0] === 'price') {
         price = param[1];
+        console.log('price', price);
       } else {
         ingredients[param[0]] = +param[1];
       }

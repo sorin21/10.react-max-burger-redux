@@ -1,12 +1,38 @@
 import React from "react";
 import classes from './Order.css';
 
-const order = (props) => (
-  <div className={classes.Order}>
-    <p>Ingredients: </p>
-    {/* Transform a string into a number */}
-    <p>Price: <strong>${Number.parseFloat(props.price).toFixed(2)}</strong> </p>
-  </div>
-);
+const order = (props) => {
+  const ingredients = [];
+
+  for(let ingredientName in props.ingredients) {
+    // push an object in the ingredients array
+    ingredients.push({
+      name: ingredientName,
+      amount: props.ingredients[ingredientName]
+    })
+  }
+
+  const ingredientOutput = ingredients.map((ig, i) => {
+    return <span 
+      style={{
+        textTransform: 'capitalize',
+        display: 'inline-block',
+        margin: '0 8px',
+        border: '1px solid #ccc',
+        padding: '5px',
+        boxSizing: 'border-box',
+        boxShadow: '0 2px 3px #ccc'
+
+        }}
+      key={ig.name}>{ig.name} ({ig.amount})</span>
+  })
+  return(
+    <div className={classes.Order}>
+      <p>Ingredients: {ingredientOutput} </p>
+      {/* Transform a string into a number */}
+      <p>Price: <strong>${Number.parseFloat(props.price).toFixed(2)}</strong> </p>
+    </div>
+  );
+}
 
 export default order;

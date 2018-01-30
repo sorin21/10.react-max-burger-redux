@@ -43,7 +43,6 @@ class Orders extends Component {
             ingredients={order.ingredients}
             price={order.price} />
         ))}
-        <Order />
       </div>
     );
   }
