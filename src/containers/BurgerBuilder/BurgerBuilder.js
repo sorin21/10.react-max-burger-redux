@@ -1,4 +1,6 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
+
 import Aux from '../../hoc/Auxiliary';
 import Burger from '../../components/Burger/Burger';
 import BuildControls from '../../components/Burger/BuildControls/BuildControls';
@@ -7,6 +9,7 @@ import OrderSummary from "../../components/Burger/OrderSummary/OrderSummary";
 import Spinner from '../../components/UI/Spinner/Spinner';
 import axios from '../../axios-orders';
 import withErrorHandler from '../../hoc/withErrorHandler/withErrorHandler';
+import * as actionTypes from "../../store/actions";
 
 const INGRIDIENT_PRICES = {
   salad: 0.5,
@@ -17,7 +20,7 @@ const INGRIDIENT_PRICES = {
 
 class BurgerBuilder extends Component {
   state = {
-    ingredients: null,
+    // ingredients: null,
     totalPrice: 4,
     purchasable: false,
     purchasing: false,
@@ -26,13 +29,13 @@ class BurgerBuilder extends Component {
   }
 
   componentDidMount() {
-    axios.get('https://react-burger-project-5c90d.firebaseio.com/ingredients.json')
-      .then((response) => {
-        this.setState({ingredients: response.data});
-      })
-      .catch((error) => {
-        this.setState({ error: true });
-      })
+    // axios.get('https://react-burger-project-5c90d.firebaseio.com/ingredients.json')
+    //   .then((response) => {
+    //     this.setState({ingredients: response.data});
+    //   })
+    //   .catch((error) => {
+    //     this.setState({ error: true });
+    //   })
   }
 
   updatePurchaseState = (ingredients) => {
@@ -142,7 +145,7 @@ class BurgerBuilder extends Component {
   render() {
     // Copy the state in an immutable way
     const disableInfo = {
-      ...this.state.ingredients
+      ...this.props.ings
     }
     for(let key in disableInfo) {
       // Check disableInfo[key]: true or false, which is 
@@ -156,12 +159,13 @@ class BurgerBuilder extends Component {
     let burger = this.state.error ? <p>Ingredients can't be loaded from server!</p> : <Spinner />;
 
     // Check the state ingredient to overwrote the burger
-    if(this.state.ingredients) {
+    if (this.props.ings) {
       burger = (
         <Aux>
-          <Burger ingredients={this.state.ingredients} />
+          <Burger ingredients={this.props.ings} />
           <BuildControls
-            ingridientAdded={this.addIngredientHandler} ingredientRemoved={this.removeIngredientHandler}
+            ingridientAdded={this.props.onAddIngredient} 
+            ingredientRemoved={this.props.onAddIngredient}
             disabled={disableInfo}
             price={this.state.totalPrice}
             purchasable={this.state.purchasable}
@@ -170,7 +174,7 @@ class BurgerBuilder extends Component {
       );
       orderSummary = <OrderSummary
         price={this.state.totalPrice}
-        ingredients={this.state.ingredients}
+        ingredients={this.props.ings}
         purchaseCancelled={this.purchaseCancelHandler}
         purchaseContinued={this.purchaseContinueHandler} />;
     }
@@ -193,4 +197,19 @@ class BurgerBuilder extends Component {
   }
 }
 
-export default withErrorHandler(BurgerBuilder, axios);
+const mapStateToProps = (state) => {
+  console.log('state.ingredients', state.ingredients);
+  return {
+    ings: state.ingredients
+  };
+};
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    // we get ingName from reducer.js where is ingredientName
+    onAddIngredient: (ingName) => ({ type: actionTypes.ADD_INGREDIENT, ingredientName: ingName}),
+    onRemoveIngredient: (ingName) => ({ type: actionTypes.REMOVE_INGREDIENT, ingredientName: ingName})
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(withErrorHandler(BurgerBuilder, axios));
